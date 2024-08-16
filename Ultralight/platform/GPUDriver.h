@@ -1,16 +1,10 @@
-///
-/// @file GPUDriver.h
-///
-/// @brief The header for the GPUDriver interface.
-///
-/// @author
-///
-/// This file is a part of Ultralight, a next-generation HTML renderer.
-///
-/// Website: <http://ultralig.ht>
-///
-/// Copyright (C) 2022 Ultralight, Inc. All rights reserved.
-///
+/******************************************************************************
+ *  This file is a part of Ultralight, an ultra-portable web-browser engine.  *
+ *                                                                            *
+ *  See <https://ultralig.ht> for licensing and more.                         *
+ *                                                                            *
+ *  (C) 2023 Ultralight, Inc.                                                 *
+ *****************************************************************************/
 #pragma once
 #pragma warning(disable : 4251)
 #include <Ultralight/Defines.h>
@@ -68,7 +62,7 @@ struct Vertex_2f_4ub_2f_2f_28f {
 ///
 /// Vertex buffer formats (identifiers start with underscore due to C++ naming rules)
 ///
-enum class UExport VertexBufferFormat : uint8_t {
+enum class VertexBufferFormat : uint8_t {
   _2f_4ub_2f,
   _2f_4ub_2f_2f_28f,
 };
@@ -101,7 +95,7 @@ struct UExport IndexBuffer {
 /// Each of these correspond to a vertex/pixel shader pair. You can find stock shader code for
 /// these in the `shaders` folder of the AppCore repo.
 ///
-enum class UExport ShaderType : uint8_t {
+enum class ShaderType : uint8_t {
   Fill,     // Shader program for quad geometry
   FillPath, // Shader program for path geometry
 };
@@ -159,7 +153,7 @@ struct UExport GPUState {
 ///
 /// Command types, used by Command::command_type
 ///
-enum class UExport CommandType : uint8_t {
+enum class CommandType : uint8_t {
   ClearRenderBuffer,
   DrawGeometry,
 };
@@ -188,13 +182,19 @@ struct UExport CommandList {
 #pragma pack(pop)
 
 ///
-/// @brief  GPUDriver interface, dispatches GPU calls to the native driver.
-///
+/// User-defined GPU driver interface.
+/// 
+/// The library uses this to optionally render Views directly on the GPU.
+/// 
+/// @pre Only used if the View is accelerated (see ViewConfig::is_accelerated)
+/// 
 /// This is automatically provided for you when you use App::Create(), AppCore provides
 /// platform-specific implementations of GPUDriver for each OS.
 ///
 /// If you are using Renderer::Create(), you will need to provide your own implementation of this
-/// class if you have enabled the GPU renderer in the Config. @see Platform::set_gpu_driver
+/// class if you have enabled the GPU renderer in the Config.
+/// 
+/// @see Platform::set_gpu_driver()
 ///
 class UExport GPUDriver {
  public:

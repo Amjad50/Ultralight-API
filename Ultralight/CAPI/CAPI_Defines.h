@@ -1,7 +1,15 @@
+/******************************************************************************
+ *  This file is a part of Ultralight, an ultra-portable web-browser engine.  *
+ *                                                                            *
+ *  See <https://ultralig.ht> for licensing and more.                         *
+ *                                                                            *
+ *  (C) 2023 Ultralight, Inc.                                                 *
+ *****************************************************************************/
 #ifndef ULTRALIGHT_CAPI_DEFINES_H
 #define ULTRALIGHT_CAPI_DEFINES_H
 
 #include <stddef.h>
+#include <stdint.h>
 #include <JavaScriptCore/JavaScript.h>
 #ifdef __OBJC__
 #import <AppKit/NSEvent.h>
@@ -49,6 +57,9 @@ typedef struct C_Buffer* ULBuffer;
 typedef struct C_KeyEvent* ULKeyEvent;
 typedef struct C_MouseEvent* ULMouseEvent;
 typedef struct C_ScrollEvent* ULScrollEvent;
+typedef struct C_GamepadEvent* ULGamepadEvent;
+typedef struct C_GamepadAxisEvent* ULGamepadAxisEvent;
+typedef struct C_GamepadButtonEvent* ULGamepadButtonEvent;
 typedef struct C_Surface* ULSurface;
 typedef struct C_Surface* ULBitmapSurface;
 typedef struct C_FontFile* ULFontFile;
@@ -191,6 +202,11 @@ typedef enum {
 } ULScrollEventType;
 
 typedef enum {
+  kGamepadEventType_Connected,
+  kGamepadEventType_Disconnected,
+} ULGamepadEventType;
+
+typedef enum {
   kFaceWinding_Clockwise,
   kFaceWinding_CounterClockwise,
 } ULFaceWinding;
@@ -266,6 +282,11 @@ ULExport unsigned int ulVersionMinor();
 /// Get the numeric patch version of the library.
 ///
 ULExport unsigned int ulVersionPatch();
+
+///
+/// Get the full WebKit version string.
+/// 
+ULExport const char* ulWebKitVersionString();
 
 #ifdef __cplusplus
 } // extern "C"
